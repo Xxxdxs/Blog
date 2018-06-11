@@ -1,5 +1,4 @@
 <template>
-  <!-- <div v-html="this.blog.node ?this.blog.node.bodyHTML: ''"></div> -->
   <div>
     <v-layout>
       <v-flex xs12>
