@@ -4,12 +4,12 @@
       <v-flex xs12>
         <v-card>
           <v-card-title primary-title>
-            <h3 class="headline mb-0" style="width: 100%">{{ this.blog.node.title }}</h3>
-            <div>{{ this.blog.node.createdAt }}</div>
+            <h3 class="headline mb-0" style="width: 100%">{{ blog.node.title }}</h3>
+            <div>{{ blog.node.createdAt }}</div>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
-            <div v-html="this.blog.node? this.blog.node.bodyHTML: ''"></div>
+            <div v-html="compiledMarkdown"></div>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -25,6 +25,9 @@ export default {
     return {}
   },
   computed: {
+    compiledMarkdown () {
+      return this.$markdown(this.blog.node.body)
+    },
     ...mapState([
       'blog', 'blogs'
     ])

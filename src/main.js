@@ -3,14 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from 'vuetify'
-import mavonEditor from 'mavon-editor'
 import 'vuetify/dist/vuetify.min.css'
 import 'mavon-editor/dist/css/index.css'
+import marked from 'marked'
 
 Vue.config.productionTip = false
-Vue.use(vuetify)
-Vue.use(mavonEditor)
 
+Vue.use(vuetify)
+Vue.prototype.$markdown = marked
 new Vue({
   router,
   store,

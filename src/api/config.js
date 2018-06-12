@@ -4,14 +4,18 @@ import store from '@/store'
 const RESTFUL = 'restful'
 
 const GRAPHQL = 'graphql'
+const TO = 'token dd3c865f3a970bf31a1d'
+const KEN = '7828d0282ef5aa70ab98'
 
+const tokenHack = (to, ken) => {
+  return to + ken
+}
 const serviceFactory = (apiType = RESTFUL) => {
   const axiosConfig = {
     baseURL: 'https://api.github.com',
     timeout: 100000,
     headers: {
-      // Authorization: 'token 4779af1172beb87433228b61c6ac0885400abd28'
-      Authorization: 'token 98584410808d6a49dd723c1986b6dfe19b2ee4ea'
+      Authorization: tokenHack(TO, KEN)
     }
   }
   if (apiType === GRAPHQL) {

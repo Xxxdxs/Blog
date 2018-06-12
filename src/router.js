@@ -5,10 +5,12 @@ import About from './views/About.vue'
 import Index from './views/Index.vue'
 import New from './views/New.vue'
 import Blog from './views/Blog.vue'
+import Archive from './views/Archive'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -36,13 +38,18 @@ export default new Router({
               component: Blog
             }
           ]
+        },
+        {
+          path: '/about',
+          name: 'about',
+          component: About
+        },
+        {
+          path: '/archive',
+          name: 'archive',
+          component: Archive
         }
       ]
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: About
     }
   ],
   scrollBehavior (to, from, savedPosition) {

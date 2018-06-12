@@ -19,6 +19,7 @@ const blogApi = {
                       createdAt
                       bodyHTML
                       number
+                      body
                     }
                   }
                 }
@@ -66,6 +67,7 @@ const blogApi = {
                     createdAt
                     bodyHTML
                     number
+                    body
                   }
                 }
               }

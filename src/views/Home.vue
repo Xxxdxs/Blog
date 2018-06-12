@@ -3,17 +3,17 @@
     <v-flex xs12 sm8 md9 xl10>
       <v-layout row wrap>
         <v-flex xs12 sm12 md6 lg4 xl3 v-for="item in blogs" :key="item.node.id" :class="[isXSDevice? 'px-0': 'px-2', 'mb-2']">
-          <v-card hover style="text-align: left">
+          <v-card hover style="text-align: left; cursor: default;">
             <v-card-title primary-title>
               <div class="headline" style="width: 100%;">{{ item.node.title }}</div>
               <div>{{ item.node.createdAt }}</div>
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>
-              <div v-html="item.node.bodyHTML" style="width: 100%;"></div>
+              <div v-html="compileMarkdown(item.node.body)"></div>
             </v-card-text>
             <v-card-text class="primary--text">
-              <div @click="readMore(item)">Read More</div>
+              <div style="cursor: pointer;" @click="readMore(item)">Read More</div>
             </v-card-text>
           </v-card>
         </v-flex>
@@ -37,6 +37,8 @@
 <script>
 import blogApi from '@/api/blogQuery'
 import { mapMutations } from 'vuex'
+
+const READMORE_FLAG = '<!-- more -->'
 export default {
   props: {
     isXSDevice: Boolean
@@ -63,10 +65,24 @@ export default {
         path: `/blog/${item.node.number}`
       })
     },
+    compileMarkdown (markdown) {
+      return this.$markdown(this._cutMarkdown(markdown))
+    },
+    _cutMarkdown (markdown) {
+      if (markdown.includes(READMORE_FLAG)) {
+        return markdown.split(READMORE_FLAG)[0]
+      } else {
+        return markdown.substr(0, 200)
+      }
+    },
     ...mapMutations({
       setBlogs: 'SET_BLOGS',
       setBlog: 'SET_BLOG'
     })
+  },
+  filters: {
+    cutBodyHTML (content) {
+    }
   }
 }
 </script>

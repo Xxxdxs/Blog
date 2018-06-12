@@ -1,7 +1,7 @@
 <template>
   <div class="index">
     <v-app>
-      <v-navigation-drawer v-model="drawer" width="200" absolute temporary>
+      <v-navigation-drawer v-model="drawer" width="200" fixed temporary>
         <v-toolbar color="blue accent-4">
           <v-list>
             <v-list-tile>
@@ -13,12 +13,12 @@
         </v-toolbar>
         <v-divider></v-divider>
         <v-list dense class="pt-0">
-          <v-list-tile v-for="item in items" ripple :key="item.title">
+          <v-list-tile v-for="item in navs" ripple :key="item.title" :to="'/' + item.title">
             <v-list-tile-action>
               <v-icon>{{ item.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+              <v-list-tile-title style="text-transform: uppercase">{{ item.title }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -26,13 +26,13 @@
       <v-toolbar color="blue accent-4" app>
         <v-toolbar-side-icon v-if="isXSDevice" @click="toggleSiderbar" class="white--text"></v-toolbar-side-icon>
         <v-toolbar-title  class="headline white--text">Halo Halo</v-toolbar-title>
-        <v-toolbar-items v-if="!isXSDevice">
-          <v-btn v-for="item in items" 
-                 :key="item.title"
-                 class="white--text"
-                 flat 
-                 ripple>{{ item.title }}</v-btn>
-        </v-toolbar-items>
+          <v-toolbar-items v-if="!isXSDevice">
+            <v-btn flat ripple exact
+              v-for="item in navs"
+              :key="item.title"
+              :to="'/' + item.title"
+              class="white--text">{{ item.title }}</v-btn>
+          </v-toolbar-items>
         <v-spacer></v-spacer>
         <v-btn icon>
           <v-icon class="white--text">search</v-icon>
@@ -60,10 +60,10 @@
 export default {
   data () {
     return {
-      items: [
-        { title: 'Home', icon: 'dashboard' },
-        { title: 'Archive', icon: 'dashboard' },
-        { title: 'About', icon: 'question_answer' }
+      navs: [
+        { title: 'home', icon: 'dashboard' },
+        { title: 'archive', icon: 'dashboard' },
+        { title: 'about', icon: 'question_answer' }
       ],
       drawer: false
     }
