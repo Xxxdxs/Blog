@@ -3,7 +3,7 @@ import { serviceFactory, GRAPHQL } from './config'
 const request = serviceFactory(GRAPHQL)
 
 const blogApi = {
-  getLatestBlogs (lastID = null) {
+  getLatestBlogs (endCursor = null) {
     return request({
       method: 'post',
       data: {
@@ -11,21 +11,27 @@ const blogApi = {
           query {
             repository(owner: "Xxxdxs", name: "Xxxdxs.github.io") {
               issues(orderBy: {field: CREATED_AT, direction: DESC},
-                first: 10, states: OPEN, after: ${lastID}) {
+                first: 100, states: OPEN, after: ${endCursor}) {
+                  totalCount
                   edges {
+                    cursor
                     node {
                       id
                       title
                       createdAt
-                      bodyHTML
+                      updatedAt
                       number
                       body
+                      labels(first: 100) {
+                        nodes {
+                          name
+                          color
+                        }
+                      }
                     }
                   }
-                }
-                labels(first: 100) {
-                  nodes {
-                    name
+                  pageInfo {
+                    endCursor
                   }
                 }
               }
@@ -34,46 +40,32 @@ const blogApi = {
       }
     })
   },
-  getLabels () {
-    return request({
-      method: 'post',
-      data: {
-        query: `
-            query {
-              repository(owner: "Xxxdxs", name: "Xxxdxs.github.io") {
-                labels(first: 100) {
-                  nodes {
-                    name
-                  }
-                }
-              }
-            }
-          `
-      }
-    })
-  },
-  getBlogsByLabel (label, lastID = null) {
+  getBlogsByLabel (label) {
     return request({
       method: 'post',
       data: {
         query: `
           query {
             repository(owner: "Xxxdxs", name: "Xxxdxs.github.io") {
-              issues(first: 10, labels: ${label}, after: ${lastID}) {
-                edges {
-                  node {
-                    id
+              label(name: ${label}) {
+                issues(first: 100, states: OPEN) {
+                  nodes {
                     title
-                    createdAt
-                    bodyHTML
                     number
-                    body
+                    createdAt
                   }
                 }
               }
             }
           }
          `
+      }
+    })
+  },
+  getBlogByNumber () {
+    return request({
+      method: 'post',
+      data: {
       }
     })
   }

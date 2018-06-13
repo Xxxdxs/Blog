@@ -23,6 +23,9 @@
     }
   }
 }
+a {
+  text-decoration: none;
+}
 code {
   padding: .2em .4em !important;
   background: rgba(27,31,35,.05) !important;

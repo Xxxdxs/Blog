@@ -3,9 +3,9 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import About from './views/About.vue'
 import Index from './views/Index.vue'
-import New from './views/New.vue'
 import Blog from './views/Blog.vue'
 import Archive from './views/Archive'
+import Tag from './views/Tag'
 
 Vue.use(Router)
 
@@ -22,11 +22,6 @@ export default new Router({
           name: 'home',
           component: Home,
           path: 'home'
-        },
-        {
-          name: 'new',
-          component: New,
-          path: 'new'
         },
         {
           name: 'blog',
@@ -48,6 +43,17 @@ export default new Router({
           path: '/archive',
           name: 'archive',
           component: Archive
+        },
+        {
+          path: '/tag',
+          name: 'tag',
+          component: Tag,
+          children: [
+            {
+              path: ':id',
+              component: Tag
+            }
+          ]
         }
       ]
     }

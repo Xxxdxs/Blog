@@ -6,6 +6,7 @@ import vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'mavon-editor/dist/css/index.css'
 import marked from 'marked'
+import './assets/scss/icon.scss'
 
 Vue.config.productionTip = false
 

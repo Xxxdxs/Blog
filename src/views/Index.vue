@@ -23,34 +23,58 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar color="blue accent-4" app>
-        <v-toolbar-side-icon v-if="isXSDevice" @click="toggleSiderbar" class="white--text"></v-toolbar-side-icon>
-        <v-toolbar-title  class="headline white--text">Halo Halo</v-toolbar-title>
-          <v-toolbar-items v-if="!isXSDevice">
-            <v-btn flat ripple exact
-              v-for="item in navs"
-              :key="item.title"
-              :to="'/' + item.title"
-              class="white--text">{{ item.title }}</v-btn>
-          </v-toolbar-items>
-        <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon class="white--text">search</v-icon>
-        </v-btn>
-        <v-btn icon @click="gotoNewBlogPage">
-          <v-icon class="white--text">create</v-icon>
-        </v-btn>
-      </v-toolbar>
+        <v-toolbar app color="blue accent-4" >
+          <v-toolbar color="transparent" flat style="max-width: 1200px;margin: 0 auto;">
+            <v-toolbar-side-icon v-if="isXSDevice" @click="toggleSiderbar" class="white--text"></v-toolbar-side-icon>
+            <v-toolbar-title  class="headline white--text">Halo Halo</v-toolbar-title>
+              <v-toolbar-items v-if="!isXSDevice">
+                <v-btn flat ripple exact
+                  v-for="item in navs"
+                  :key="item.title"
+                  :to="'/' + item.title"
+                  class="white--text">{{ item.title }}</v-btn>
+              </v-toolbar-items>
+            <v-spacer></v-spacer>
+            <v-btn icon>
+              <v-icon class="white--text">search</v-icon>
+            </v-btn>
+            <v-btn icon @click="gotoNewBlogPage">
+              <v-icon class="white--text">create</v-icon>
+            </v-btn>
+          </v-toolbar>
+        </v-toolbar>
       <v-content>
-        <v-container fluid :class="{ 'px-0 mx-0': isXSDevice }">
-          <router-view :isXSDevice="isXSDevice"></router-view>
+        <v-container fluid :class="{ 'px-0 mx-0': isXSDevice }" style="max-width: 1200px">
+          <keep-alive>
+            <router-view 
+            :deviceSizeType="deviceSizeType"
+            :isXSDevice="isXSDevice"></router-view>
+          </keep-alive>
         </v-container>
       </v-content>
-      <v-footer class="pa-1">
-        <v-spacer></v-spacer>
-        <div>&copy; {{ new Date().getFullYear() }}</div>
-        <div>v0.0.1</div>
-        <v-spacer></v-spacer>
+      <v-footer class="indigo lighten-1 white--text text-xs-center" height="100">
+        <!-- <div>&copy; {{ new Date().getFullYear() }}</div> -->
+        <v-layout row wrap justify-center>
+          <v-flex xs12>
+            <div>GithubBlog@0.0.1</div>
+          </v-flex>
+          <v-flex xs12>
+            <div class="social">
+              <a href="https://github.com/Xxxdxs">
+                <span class="icon-github iconfont"></span>
+              </a>
+              <a href="https://weibo.com/u/1688253490">
+                <span class="icon-weibo iconfont"></span>
+              </a>
+              <a href="https://twitter.com/Xxxdxsss">
+                <span class="icon-twitter iconfont"></span>
+              </a>
+            </div>
+          </v-flex>
+          <v-flex xs12>
+            <div>Xxxdxs&copy; {{ new Date().getFullYear() }}</div>
+          </v-flex>
+        </v-layout>
       </v-footer>
   </v-app>
   </div>
@@ -70,12 +94,19 @@ export default {
   },
   computed: {
     isXSDevice () {
-      let ret
       switch (this.$vuetify.breakpoint.name) {
-        case 'xs': ret = true; break
-        default: ret = false
+        case 'xs': return true
+        default: return false
       }
-      return ret
+    },
+    deviceSizeType () {
+      switch (this.$vuetify.breakpoint.name) {
+        case 'xs': return 'xs'
+        case 'sm': return 'sm'
+        case 'md': return 'md'
+        case 'lg': return 'lg'
+        case 'xl': return 'xl'
+      }
     }
   },
   methods: {
@@ -92,4 +123,11 @@ export default {
 </script>
 
 <style scoped>
+.social a {
+  margin: 0 4px;
+}
+.iconfont {
+  color: #fff;
+  font-size: 2em;
+}
 </style>
