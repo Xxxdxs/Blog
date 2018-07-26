@@ -2,8 +2,9 @@ import axios from 'axios'
 import store from '@/store'
 
 const RESTFUL = 'restful'
-
 const GRAPHQL = 'graphql'
+const OWNER = 'Xxxdxs'
+const REPO_NAME = 'Xxxdxs.github.io'
 const TO = 'token dd3c865f3a970bf31a1d'
 const KEN = '7828d0282ef5aa70ab98'
 
@@ -41,5 +42,5 @@ const serviceFactory = (apiType = RESTFUL) => {
 }
 
 export {
-  GRAPHQL, RESTFUL, serviceFactory
+  GRAPHQL, RESTFUL, serviceFactory, OWNER, REPO_NAME
 }

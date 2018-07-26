@@ -38,9 +38,9 @@
             <v-btn icon>
               <v-icon class="white--text">search</v-icon>
             </v-btn>
-            <v-btn icon @click="gotoNewBlogPage">
+            <!-- <v-btn icon @click="gotoNewBlogPage">
               <v-icon class="white--text">create</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-toolbar>
         </v-toolbar>
       <v-content>

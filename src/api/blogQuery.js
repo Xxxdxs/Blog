@@ -1,4 +1,4 @@
-import { serviceFactory, GRAPHQL } from './config'
+import { serviceFactory, GRAPHQL, OWNER, REPO_NAME } from './config'
 
 const request = serviceFactory(GRAPHQL)
 
@@ -9,7 +9,7 @@ const blogApi = {
       data: {
         query: `
           query {
-            repository(owner: "Xxxdxs", name: "Xxxdxs.github.io") {
+            repository(owner: "${OWNER}", name: "${REPO_NAME}") {
               issues(orderBy: {field: CREATED_AT, direction: DESC},
                 first: 100, states: OPEN, after: ${endCursor}) {
                   totalCount
@@ -46,7 +46,7 @@ const blogApi = {
       data: {
         query: `
           query {
-            repository(owner: "Xxxdxs", name: "Xxxdxs.github.io") {
+            repository(owner: "${OWNER}", name: "${REPO_NAME}") {
               label(name: ${label}) {
                 issues(first: 100, states: OPEN) {
                   nodes {
@@ -66,6 +66,49 @@ const blogApi = {
     return request({
       method: 'post',
       data: {
+      }
+    })
+  },
+  getBlogsOrderByTime () {
+    return request({
+      method: 'post',
+      data: {
+        query: `
+          query {
+            repository(owner: "${OWNER}", name: "${REPO_NAME}") {
+              issues(orderBy: {field: CREATED_AT, direction: DESC},
+                first: 100, states: OPEN) {
+                  nodes {
+                    id
+                    title
+                    createdAt
+                    number
+                  }
+                }
+              }
+            }
+         `
+      }
+    })
+  },
+  getBlogsByTagOrderByTime (tag) {
+    return request({
+      method: 'post',
+      data: {
+        query: `
+          query {
+            repository(owner: "${OWNER}", name: "${REPO_NAME}") {
+              issues(orderBy: {field: CREATED_AT, direction: DESC},labels: "${tag}",first: 100, states: OPEN) {
+                  nodes {
+                    id
+                    title
+                    createdAt
+                    number
+                  }
+                }
+              }
+            }
+         `
       }
     })
   }

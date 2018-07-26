@@ -1,4 +1,4 @@
-import { serviceFactory, GRAPHQL } from './config2'
+import { serviceFactory, GRAPHQL, OWNER, REPO_NAME } from './config'
 
 const request = serviceFactory(GRAPHQL)
 
@@ -9,7 +9,7 @@ const tagApi = {
       data: {
         query: `
           query {
-            repository(owner: "Xxxdxs", name: "Xxxdxs.github.io") {
+            repository(owner: "${OWNER}", name: "${REPO_NAME}") {
               labels(first: 100) {
                 nodes {
                   name

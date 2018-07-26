@@ -1,21 +1,52 @@
 <template>
   <div class="tag">
-    <h1>tag</h1>
-    <div>
-      {{ text }}
-    </div>
+    <Timeline :timeline="timeline"></Timeline>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
+<script>
+import Timeline from './Timeline'
+import blogApi from '../api/blogQuery'
+import { groupBlogs } from '../common/js/tool' 
 export default {
   data () {
     return {
-      text: ''
+      timeline: [],
+      tag: ''
     }
   },
   created () {
-    this.text = this.$route.params.id
+    this.blogs = []
+    this.i = 0
+  },
+  watch: {
+    $route: 'pathWatch',
+    tag: function (newValue) {
+      this._getBlogsByTagOrderByTime(newValue)
+    }
+  },
+  methods: {
+    pathWatch (to, from) {
+      if (to.path.indexOf('/tag') === 0) {
+        this.tag = to.params.id
+      }
+    },
+    _getBlogsByTagOrderByTime (tag) {
+      if (!tag) {
+        return
+      }
+      blogApi.getBlogsByTagOrderByTime(tag).then(res => {
+        this.blogs = res.data.data.repository.issues.nodes
+        this.timeline = this._groupBlogs(this.blogs)
+        console.log(this.timeline)
+      })
+    },
+    _groupBlogs (blogs) {
+      return groupBlogs(blogs)
+    }
+  },
+  components: {
+    Timeline
   }
 }
 </script>

@@ -15,7 +15,7 @@
                 <div class="headline" style="width: 100%;color: #2962FF" @click="goToBlogPage(item)">
                   <span style="cursor: pointer;">{{ item.node.title }}</span>
                 </div>
-                <div>{{ item.node.createdAt }}</div>
+                <div>{{ normalizeDate(item.node.createdAt) }}</div>
               </v-card-title>
               <v-divider></v-divider>
               <v-card-text>
@@ -115,6 +115,9 @@ export default {
     },
     compileMarkdown (markdown) {
       return this.$markdown(this._cutMarkdown(markdown))
+    }, 
+    normalizeDate (date) {
+      return date.slice(0, 10)
     },
     _getLatestBlog () {
       blogApi.getLatestBlogs().then((res) => {
