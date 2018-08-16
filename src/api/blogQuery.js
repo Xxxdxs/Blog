@@ -62,10 +62,24 @@ const blogApi = {
       }
     })
   },
-  getBlogByNumber () {
+  getBlogByNumber (number) {
     return request({
       method: 'post',
       data: {
+        query: `
+          query {
+            repository(owner: "${OWNER}", name: "${REPO_NAME}") {
+              issue(number: ${number}) {
+                    id
+                    title
+                    createdAt
+                    number
+                    body
+                    updatedAt
+                }
+              }
+            }          
+        `
       }
     })
   },

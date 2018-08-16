@@ -44,12 +44,17 @@
           </v-toolbar>
         </v-toolbar>
       <v-content>
-        <v-container fluid :class="{ 'px-0 mx-0': isXSDevice }" style="max-width: 1200px">
+        <v-container fluid :class="{ 'px-0 mx-0': isXSDevice }" style="max-width: 1200px; position: relative;">
           <keep-alive>
             <router-view 
             :deviceSizeType="deviceSizeType"
             :isXSDevice="isXSDevice"></router-view>
           </keep-alive>
+          <v-fab-transition>
+            <v-btn style="background: #2962FF;bottom: 80px;" v-show="scrolled" fab small fixed right @click="scrollToTop">
+              <v-icon color="white">keyboard_arrow_up</v-icon>
+            </v-btn>
+          </v-fab-transition>          
         </v-container>
       </v-content>
       <v-footer class="indigo lighten-1 white--text text-xs-center" height="100">
@@ -81,6 +86,7 @@
 </template>
 
 <script>
+let timer = null
 export default {
   data () {
     return {
@@ -89,7 +95,8 @@ export default {
         { title: 'archive', icon: 'dashboard' },
         { title: 'about', icon: 'question_answer' }
       ],
-      drawer: false
+      drawer: false,
+      scrolled: false
     }
   },
   computed: {
@@ -109,6 +116,9 @@ export default {
       }
     }
   },
+  mounted () {
+    window.addEventListener('scroll', this.handleScroll)
+  },
   methods: {
     toggleSiderbar () {
       this.drawer = !this.drawer
@@ -117,6 +127,21 @@ export default {
       this.$router.push({
         name: 'new'
       })
+    },
+    handleScroll () {
+      this.scrolled = window.scrollY > 0
+    },
+    scrollToTop () {
+      clearInterval(timer)
+      timer = setInterval(function () {
+        let offsetTop = document.documentElement.scrollTop || document.scrollingElement.scrollTop
+        let speed = offsetTop > 3 ? Math.floor(offsetTop / 3) : 3
+        document.documentElement.scrollTop = document.scrollingElement.scrollTop = offsetTop - speed
+        console.log(offsetTop)
+        if (offsetTop <= 0) {
+          clearInterval(timer)
+        }    
+      }, 30)
     }
   }
 }

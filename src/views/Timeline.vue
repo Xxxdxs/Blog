@@ -8,10 +8,9 @@
       <div class="tl-item-content-container">
         <div class="tl-item-content">
           <v-layout row wrap>
-            <v-flex v-for="blog in item.list" :key="blog.id" xs12 sm6>
-              <v-card>
-                <v-card-text>{{ blog.title }}</v-card-text>
-              </v-card>
+            <v-flex v-for="blog in item.list" :key="blog.id" xs12 sm6 class="pa-2" style="background: white;">
+              <v-btn block depressed color="white" class="ma-0 elevation-0" style="border-radius: 0;font-weight: normal;" :to="{path: `/blog/${blog.number}`}">{{ blog.title }}
+              </v-btn>
             </v-flex>
           </v-layout> 
         </div>
@@ -23,7 +22,10 @@
 <script>
 export default {
   props: {
-    timeline: Array
+    timeline: Array,
+    default: function () {
+      return []
+    }
   }
 }
 </script>

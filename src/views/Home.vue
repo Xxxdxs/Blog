@@ -12,7 +12,7 @@
               >
               <!-- 此处相对定位会导致chrome中出现不能点击bug -->
               <v-card-title primary-title>
-                <div class="headline" style="width: 100%;color: #2962FF" @click="goToBlogPage(item)">
+                <div class="headline" style="width: 100%;color: #2962FF" @click="goToBlogPage(item.node)">
                   <span style="cursor: pointer;">{{ item.node.title }}</span>
                 </div>
                 <div>{{ normalizeDate(item.node.createdAt) }}</div>
@@ -22,7 +22,7 @@
                 <div v-html="compileMarkdown(item.node.body)"></div>
               </v-card-text>
               <v-card-text style="color: #2962FF" class="py-0">
-                <div @click="goToBlogPage(item)">
+                <div @click="goToBlogPage(item.node)">
                   <span style="cursor: pointer;">阅读全文</span>
                 </div>
               </v-card-text>
@@ -53,7 +53,7 @@
         </v-layout>
       </v-flex>
       <v-flex xs12>
-        <div class="text-xs-center" style="margin: 0 auto;">
+        <div class="text-xs-center">
           <v-pagination :length="totalPage" v-model="page"></v-pagination>
         </div>
       </v-flex>
@@ -110,7 +110,7 @@ export default {
     goToBlogPage (item) {
       this.setBlog(item)
       this.$router.push({
-        path: `/blog/${item.node.number}`
+        path: `/blog/${item.number}`
       })
     },
     compileMarkdown (markdown) {

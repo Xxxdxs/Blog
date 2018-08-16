@@ -18,10 +18,12 @@ export default {
   created () {
     this.blogs = []
     this.i = 0
+    this._getBlogsByTagOrderByTime(this.$route.params.id)
   },
   watch: {
     $route: 'pathWatch',
     tag: function (newValue) {
+      this.timeline = []
       this._getBlogsByTagOrderByTime(newValue)
     }
   },
@@ -38,7 +40,6 @@ export default {
       blogApi.getBlogsByTagOrderByTime(tag).then(res => {
         this.blogs = res.data.data.repository.issues.nodes
         this.timeline = this._groupBlogs(this.blogs)
-        console.log(this.timeline)
       })
     },
     _groupBlogs (blogs) {
